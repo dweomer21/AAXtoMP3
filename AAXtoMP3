@@ -5,7 +5,7 @@
 # Command Line Options
 
 # Usage Synopsis.
-usage=$'\nUsage: AAXtoMP3 [--flac] [--aac] [--opus ] [--single] [--level <COMPRESSIONLEVEL>]
+usage=$'\nUsage: AAXtoMP3 [--flac] [--aac] [--m4b] [--opus ] [--single] [--level <COMPRESSIONLEVEL>]
 [--chaptered] [-e:mp3] [-e:m4a] [-e:m4b] [--authcode <AUTHCODE>] [--no-clobber]
 [--target_dir <PATH>] [--complete_dir <PATH>] [--validate] [--loglevel <LOGLEVEL>]
 [--keep-author <N>] [--author <AUTHOR>] [--{dir,file,chapter}-naming-scheme <STRING>]  
@@ -59,7 +59,7 @@ while true; do
                       # Identical to --acc option.
     -e:m4a | -a | --aac ) codec=copy; extension=m4a; mode=single; container=mp4;          shift ;;
                       # Similar to --aac but specific to audio books
-    -e:m4b            ) codec=copy; extension=m4b; mode=single; container=mp4;          shift ;;
+    -e:m4b | --m4b    ) codec=copy; extension=m4b; mode=single; container=mp4;          shift ;;
                       # Change the working dir from AAX directory to what you choose.
     -t | --target_dir ) targetdir="$2";                                                 shift 2 ;;
                       # Use a custom directory naming scheme, with variables.
@@ -698,7 +698,7 @@ do
     currentDirNameScheme="$(eval echo "${dirNameScheme}")"
   else
     # The Default
-    currentDirNameScheme="${genre}/${artist}/${title}"
+    currentDirNameScheme="${artist}/${title}"
   fi
 
   # If we defined a target directory, use it. Otherwise use the location of the AAX file
@@ -874,7 +874,7 @@ do
           chapter_title="$(eval echo "${chapterNameScheme}")"
         else
           # The Default
-          chapter_title="${title}-$(printf %0${#chaptercount}d $chapternum) ${chapter}"
+          chapter_title="$(printf %0${#chaptercount}d $chapternum) ${chapter}"
         fi
         chapter_file="${output_directory}/${chapter_title}.${extension}"
 
